@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Currency exchange",
+  "version": "0.1",
+  "icons": {
+    "48": "icons/icon.png"
+  },
+  "description": "Exchange currencies",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["exchange.js"]
+    }
+  ]
+}
