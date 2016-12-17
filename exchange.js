@@ -23,11 +23,9 @@ function currency_check(callback){
      result_currnecy = selected.match(patt1);
      result_number = selected.match(patt2);
      result_d = selected.match(patt4);
-     console.log(result_d)
      if(result_d&&result_d.length == 1 && result_d[0]==','&&result_number[1]<100){
      	result_number[2] = result_number[1];
       result_number[1] = '.';
-     	console.log(result_number)
      }
      result_number = result_number.join('')
     let notNan = isNaN(result_number)

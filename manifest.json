@@ -1,6 +1,9 @@
 {
   "manifest_version": 2,
   "name": "Currency exchange",
+  "permissions": [
+  "https://*/"
+],
   "version": "0.1",
   "icons": {
     "48": "icons/icon.png"
