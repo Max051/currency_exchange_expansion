@@ -1,4 +1,4 @@
-// TODO: Optimiza this a-thing, reqex to get
+// TODO: Optimiza this a-thing
 var block = document.createElement('div')
 var a = true;
 var selected;
@@ -18,9 +18,18 @@ if (selected != "" && a) {
 var currency, result_currnecy, result_number;
 function currency_check(callback){
     let patt1 = /[$,€,£,￡]/i;
-    let patt2 =/\d+(\.\d{1,2})?/g;
+    let patt2 =/[0-9]+(\.[0-9][0-9]?)?/g;
+    let patt4 = /[.,,]/g;
      result_currnecy = selected.match(patt1);
      result_number = selected.match(patt2);
+     result_d = selected.match(patt4);
+     console.log(result_d)
+     if(result_d&&result_d.length == 1 && result_d[0]==','&&result_number[1]<100){
+     	result_number[2] = result_number[1];
+      result_number[1] = '.';
+     	console.log(result_number)
+     }
+     result_number = result_number.join('')
     let notNan = isNaN(result_number)
      if (result_currnecy&&result_number && !notNan) {
        switch(result_currnecy[0]){
@@ -62,7 +71,7 @@ function callAjax(url, callback){
 }
 var changed;
 function currency_changed(some_json){
-changed = result_number * some_json.rates.PLN
+changed = (result_number * some_json.rates.PLN).toFixed(2)
 show_div(changed+" PLN");
 }
 function show_div(text){
