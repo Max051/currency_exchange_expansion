@@ -2,19 +2,33 @@
 var block = document.createElement('div')
 var a = true;
 var selected;
+
+
+
+
+chrome.runtime.sendMessage({'currency':'s'}, function(response) {
+  //    console.log(response);
+   });
+
 document.addEventListener("mouseup", function(event){
 selected = window.getSelection().toString();
 if (selected != "" && a) {
 
       block.style.position = 'absolute';
       block.style.left = event.clientX + 5 + "px"
-      block.style.top = event.clientY + 3 + "px"
-      block.style.backgroundColor = "#d3d3d3";
+      block.style.top = event.clientY - 45 + "px"
+      block.style.backgroundColor = "#d7e4ed";
+      block.style.padding = "6px";
+      block.style.border = "0.5px solid #001e3c"
+      block.style.borderRadius = "1em"
+      block.style.fontSize = "1.2em"
+      block.style.fontWeight = "600"
       block.id = 'currency_block';
       a = false;
       currency_check(callAjax);
     }
 });
+var base_currency;
 var currency, result_currnecy, result_number;
 function currency_check(callback){
     let patt1 = /[$,€,£,￡]/i;
@@ -39,7 +53,10 @@ function currency_check(callback){
        break;
        case '£': currency = 'GBP';
        }
-       callback('https://api.fixer.io/latest?base='+currency,currency_changed);
+       chrome.storage.sync.get("currency_type",function(obj){
+          base_currency = obj.currency_type
+callback('https://rate-exchange-1.appspot.com/currency?from='+currency+'&to='+base_currency,currency_changed);
+       })
      }
 
 }
@@ -59,18 +76,21 @@ function callAjax(url, callback){
     var xmlhttp;
     // compatible with IE7+, Firefox, Chrome, Opera, Safari
     xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET",url, true);
     xmlhttp.onreadystatechange = function(){
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+        if (xmlhttp.readyState == 4){
+          //console.log(xmlhttp.responseText)
             callback(JSON.parse(xmlhttp.responseText));
         }
     }
-    xmlhttp.open("GET",url, true);
+
     xmlhttp.send();
 }
 var changed;
 function currency_changed(some_json){
-changed = (result_number * some_json.rates.PLN).toFixed(2)
-show_div(changed+" PLN");
+changed = (result_number * some_json.rate).toFixed(2)
+//console.log(changed)
+show_div(changed+" "+base_currency);
 }
 function show_div(text){
   block.innerHTML = text;

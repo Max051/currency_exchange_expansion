@@ -2,13 +2,29 @@
   "manifest_version": 2,
   "name": "Currency exchange",
   "permissions": [
-  "https://*/"
+  "https://*/*",
+  "contextMenus",
+  "tabs",
+  "storage"
 ],
+"browser_action": {
+         "default_icon": {
+           "16": "icons/icon_small.png",
+           "48": "icons/icon.png"
+         },
+         "default_title": "Exchange",
+         "default_popup": "index.html"
+       },
   "version": "0.1",
   "icons": {
+    "16": "icons/icon_small.png",
     "48": "icons/icon.png"
   },
   "description": "Exchange currencies",
+  "background": {
+    "page": "index.html",
+    "persistent": true
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
