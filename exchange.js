@@ -23,17 +23,20 @@ Extension.getNumber = function () {
     result_number[1] = '.';
    }
   //   console.log(result_number.join(''))
-   return result_number.join('')
+  if (result_number) {
+    return result_number.join('')
+  }
+
 };
 
 Extension.currency_check = function (callback) {
-  console.log(Extension.getNumber())
+
   let patt1 = /[$€£￡]/i;
   let result_currnecy = Extension.selected.match(patt1);
   let currency;
-  //console.log(!(isNaN( Extension.getNumber() )))
+
      if (result_currnecy&& Extension.getNumber() && !(isNaN( Extension.getNumber() )) ) {
-       console.log(result_currnecy)
+
        switch(result_currnecy[0]){
        case '$': currency = 'USD'
        break;
@@ -78,7 +81,7 @@ chrome.storage.sync.get("currency_type",function(obj){
 };
 
 Extension.show_div = function(text) {
-  console.log(Extension.block)
+//  console.log(Extension.block)
   Extension.block.innerHTML = text;
   document.body.appendChild(Extension.block)
 }
